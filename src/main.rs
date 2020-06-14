@@ -27,8 +27,8 @@ fn main() {
 
     interface
         .send(command::ConnectToAp {
-            ssid: "VFNL-0E5008",
-            password: "VictorsHome1234",
+            ssid: "",
+            password: "",
         })
         .unwrap();
 

@@ -29,10 +29,8 @@ impl Interface {
             .encode(&mut buffer)
             .map_err(|e| Error::Encode(Box::new(e)))?;
 
-        if cfg!(debug_assertions) {
-            if !buffer.ends_with(b"\r\n") {
-                panic!("Command should end with \r\n");
-            }
+        if cfg!(debug_assertions) && !buffer.ends_with(b"\r\n") {
+            panic!("Command should end with \r\n");
         }
 
         println!("> {:?}", std::str::from_utf8(&buffer).unwrap().trim());

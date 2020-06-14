@@ -107,14 +107,19 @@ impl Command for ListAp {
             };
             let rssi: i16 = match rssi.parse() {
                 Ok(rssi) => rssi,
-                Err(e) => return Err(Error::Custom(format!("Invalid RSSI value: {:?}", rssi))),
+                Err(e) => {
+                    return Err(Error::Custom(format!(
+                        "Invalid RSSI value: {:?}: {:?}",
+                        rssi, e
+                    )))
+                }
             };
             let channel: u8 = match channel.parse() {
                 Ok(channel) => channel,
                 Err(e) => {
                     return Err(Error::Custom(format!(
-                        "Invalid channel value: {:?}",
-                        channel
+                        "Invalid channel value: {:?}: {:?}",
+                        channel, e
                     )))
                 }
             };
@@ -140,8 +145,7 @@ fn try_get_string_until(str: &str, find: u8) -> Result<(&str, &str), Error> {
         }
         if byte == find && !in_quotes {
             let mut lhs = &str[..index];
-            if lhs.len() >= 2 && lhs.chars().next() == Some('"') && lhs.chars().last() == Some('"')
-            {
+            if lhs.len() >= 2 && lhs.starts_with('"') && lhs.ends_with('"') {
                 lhs = &lhs[1..lhs.len() - 1];
             }
             let rhs = &str[index + 1..];
