@@ -1,4 +1,4 @@
-use serialport::{SerialPort, SerialPortSettings};
+use serialport::SerialPort;
 use std::time::Duration;
 
 pub mod command;
@@ -9,14 +9,9 @@ pub struct Interface {
 
 impl Interface {
     pub fn new(port: &str) -> Result<Self, Error> {
-        let port = serialport::open_with_settings(
-            port,
-            &SerialPortSettings {
-                baud_rate: 115200,
-                timeout: Duration::from_secs(30),
-                ..Default::default()
-            },
-        )?;
+        let port = serialport::new(port, 115200)
+            .timeout(Duration::from_secs(30))
+            .open()?;
 
         Ok(Self { port })
     }
