@@ -168,7 +168,7 @@ pub struct AccessPoint {
 }
 
 #[derive(Debug, Eq, PartialEq, Hash, Copy, Clone)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
 pub enum ECN {
     Open,
     WEP,
